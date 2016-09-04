@@ -1,0 +1,18 @@
+bygg(array)
+  make toppnode
+
+  while array ikke tom
+    build(toppnode, første ord i array)
+    slett første ord
+  end while
+
+end bygg
+
+build(node, ord)
+  bokstav = ord.pop(0)
+  if (not exists node.barn = bokstav)
+    node.barn(bokstav) = new node
+  //somethng something
+  build(node, resten av ordet)
+
+end build  	
