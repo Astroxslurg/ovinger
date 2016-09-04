@@ -17,15 +17,13 @@ def printTree(node, thisKey):
 
 def buildTree(node, word):
     letter = word[0]
-    print(letter, end=' ')
-    print(node.posi)
     word = word[1:]
     if not letter in node.barn:
         node.barn[letter] = Node()
 
     if not word:
         return node.barn[letter]
-    #else
+    # else
     return buildTree(node.barn[letter], word)
 
 def bygg(ordliste):
@@ -33,12 +31,23 @@ def bygg(ordliste):
     for tuppel in ordliste:
         endNode = buildTree(toppNode, tuppel[0])
         endNode.posi.append(tuppel[1])
-    printTree(toppNode, 'toppNode')
     return toppNode
 
-def posisjoner(ord, indeks, node):
-    y = [1] * 5
-    return y
+def posisjoner(word, indeks, node):
+    if indeks == len(word):
+        return node.posi
+
+    letter = word[indeks]
+    indeks += 1
+    if letter == '?':
+        positions = []
+        for key in node.barn:
+            positions.extend(posisjoner(word, indeks, node.barn[key]))
+        return positions
+    elif letter in node.barn:
+        return posisjoner(word, indeks, node.barn[letter])
+    else:
+        return []
 
 def main():
     try:
