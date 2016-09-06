@@ -15,4 +15,7 @@ build(node, ord)
   //somethng something
   build(node, resten av ordet)
 
-end build  	
+end build
+
+posisjoner(ord, index, node)
+  bokstav = ord[index]
