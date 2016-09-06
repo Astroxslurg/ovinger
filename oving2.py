@@ -2,7 +2,7 @@
 
 from sys import stdin, stderr
 import traceback
-
+import time
 
 class Node:
     def __init__(self):
@@ -44,13 +44,20 @@ def posisjoner(word, indeks, node):
 
 def main():
     try:
-        words = stdin.readline().split()
+        startTime = time.time()
+        wiki = open("wiki.txt")
+        words = wiki.read().split()
+        #words = stdin.readline().split()
+        wiki.close()
+
         ordliste = []
         pos = 0
+        print(len(words))
         for o in words:
             ordliste.append((o, pos))
             pos += len(o) + 1
         toppnode = bygg(ordliste)
+        print("-- %s seconds --" %(time.time() - startTime))
         for sokeord in stdin:
             sokeord = sokeord.strip()
             print("%s:" % sokeord, end='')
