@@ -3,38 +3,45 @@
 from sys import stdin
 from itertools import repeat
 
+import math
+import sys
+
+def mergeTwo(deck1, deck2):
+    length = len(deck1) + len(deck2)
+    i1 = 0
+    i2 = 0
+    deck1.append(((sys.maxsize), 'X'))
+    deck2.append(((sys.maxsize), 'X'))
+    mergedDeck = [[] for i in range(length)]
+    for k in range(0, length):
+        if (deck1[i1][0] < deck2[i2][0]):
+            mergedDeck[k] = deck1[i1]
+            i1 += 1
+        else:
+            mergedDeck[k] = deck2[i2]
+            i2 += 1
+    return mergedDeck
 
 def merge(decks):
     deckLength = len(decks)
-    deckIndexes = [0]*deckLength
-    index = 1
-    mergedDecks = []
-    numberOfCards = 0
-    for k in decks:
-        numberOfCards += len(k)
 
-    i = 0
-    while (index <= numberOfCards):
+    while (deckLength > 1):
+        i = 1
+        while (i < deckLength):
+            decks[math.floor(i/2)] = mergeTwo(decks[i-1], decks[i])
+            i += 2
         if (i == deckLength):
-            i = 0
-            index += 1
-            continue
+            decks[math.floor(i/2)] = decks[i-1]
+        deckLength = math.ceil(deckLength/2)
 
-        if (deckIndexes[i] >= len(decks[i])):
-            i += 1
-            continue
+    totalLength = len(decks[0])
+    letterArray = [chr(97)]*totalLength
+    k = 0
+    while (k < totalLength):
+        letterArray[k] = decks[0][k][1]
+        k += 1
 
-        if (decks[i][deckIndexes[i]][0] == index):
-            mergedDecks.append(decks[i][deckIndexes[i]][1])
-            index += 1
-            deckIndexes[i] += 1
-            i = 0
-            continue
-
-        i += 1
-
-    returnString = ''.join(mergedDecks)
-    return returnString
+    return ''.join(letterArray)
 
 def main():
     # Read input.
