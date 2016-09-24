@@ -1,7 +1,14 @@
-#Python script
+#!/usr/bin/python3
 
-wiki = open("wiki.txt")
-mywords = wiki.read().split()
-print (mywords)
+from sys import stdin
 
-wiki.close()
+def main():
+    input_list = []
+    for x in stdin.readline().split():
+        input_list.append(bool(int(x)))
+
+    print(input_list)
+
+
+if __name__ == "__main__":
+    main()
