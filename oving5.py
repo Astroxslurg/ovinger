@@ -6,39 +6,43 @@ from random import randint, choice
 from operator import itemgetter
 from collections import defaultdict
 
-def alph(char):
-    return (ord(char) - 97)
+def alph(stri, r):
+    if(not len(stri) > r):
+        return 0
+    return (ord(stri[r]) - 96)
 
 def countingSort(start, end, A, r):
-    counter = [0] * 26
+    counter = [0] * 27
     i = 0
     for i in range(start, (end + 1)):
-        counter[alph(A[i][r])] += 1
+        counter[alph(A[i], r)] += 1
     i = 0
-    for i in range(26):
+    for i in range(27):
         counter[i] += counter[i - 1]
 
     B = [0] * (end - start + 1)
     i = 0
     for i in range(end, (start - 1), -1):
-        B[counter[alph(A[i][r])] - 1] = A[i]
-        counter[alph(A[i][r])] -= 1
+        B[counter[alph(A[i], r)] - 1] = A[i]
+        counter[alph(A[i], r)] -= 1
 
     i = 0
     for i in range(end - start + 1):
         A[i + start] = B[i]
 
 def stringSort(start, end, arr, radix):
+    print('start:', start, 'end:', end, 'radix:', radix)
     countingSort(start, end, arr, radix)
     x = start
     y = start
     while y < end:
-        print(x, arr[x], arr[x][radix])
-        while ((x < end) and (arr[x][radix] == arr[x+1][radix])):
+        print('x:', x, 'y:', y, arr[x])
+        while ((x < end) and ((len(arr[x]) <= radix) or (arr[x][radix] == arr[x+1][radix]))):
             x += 1
-        if (not x == y):
-            stringSort(x, y, arr, radix + 1)
-        y = x + 1
+        if (not (x == y)):
+            stringSort(y, x, arr, radix + 1)
+        x += 1
+        y = x
 
     countingSort(start, end, arr, radix+1)
     start = end+1
