@@ -21,7 +21,6 @@ def countingSort(start, end, A, r):
     B = [0] * (end - start + 1)
     i = 0
     for i in range(end, (start - 1), -1):
-        print(A[i], 'r=', A[i][r], 'counter=', counter[alph(A[i][r])])
         B[counter[alph(A[i][r])] - 1] = A[i]
         counter[alph(A[i][r])] -= 1
 
@@ -30,11 +29,22 @@ def countingSort(start, end, A, r):
         A[i + start] = B[i]
 
 def stringSort(start, end, arr, radix):
+    countingSort(start, end, arr, radix)
+    x = start
+    y = start
+    while y < end:
+        print(x, arr[x], arr[x][radix])
+        while ((x < end) and (arr[x][radix] == arr[x+1][radix])):
+            x += 1
+        if (not x == y):
+            stringSort(x, y, arr, radix + 1)
+        y = x + 1
 
+    countingSort(start, end, arr, radix+1)
+    start = end+1
 
 def flexradix(A, d):
     stringSort(0, (len(A) - 1), A, 0)
-
     return A
 
 def main():
