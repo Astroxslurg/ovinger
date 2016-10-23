@@ -38,23 +38,6 @@ def isCanonical(coins):  # coins sorted increasing
     return True
 
 
-def greedy(coins, value):
-    usedCoins = 0
-    missedCoinsIndexes = []
-    rem = value
-    i = 0
-    while (rem > 0):
-        howMany = rem//coins[i]
-        rem = rem % coins[i]
-        if howMany == 0:
-            missedCoinsIndexes.append(i)
-        else:
-            usedCoins += howMany
-        i += 1
-
-    return (usedCoins, missedCoinsIndexes)
-
-
 def getMatrix(coins, value):
     matrix = [[0 for _ in range(value + 1)] for _ in range(len(coins) + 1)]
     for i in range(value + 1):
