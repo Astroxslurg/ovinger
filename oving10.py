@@ -1,42 +1,32 @@
 from sys import stdin
-# from tabulate import tabulate
 import heapq
 
 Inf = float(1e3000)
 
 
 def mst(nm):
-    # print(tabulate(nm))
     maxWeight = 0
     h = []
     currentNodeNeighbours = nm[0]
     for i in range(1, len(currentNodeNeighbours)):
-        heapq.heappush(h, (currentNodeNeighbours[i], (0, i - 1)))
+        if not (currentNodeNeighbours[i] == Inf):
+            heapq.heappush(h, (currentNodeNeighbours[i], i - 1))
     nm[0][0] = -1
     while h:
-        # print(h)
-        (weight, vertex) = heapq.heappop(h)
-        # previous = vertex[0]
-        nodeNum = vertex[1]
-        # print(vertex, previous, nodeNum)
-        # print(weight, vertex)
+        (weight, nodeNum) = heapq.heappop(h)
         while (nm[nodeNum][0] == -1):
-            # print(h)
-            # print('-- in while --', weight, vertex)
-            if (weight == Inf) or (not h):
+            if (not h):
                 return maxWeight
-            (weight, vertex) = heapq.heappop(h)
-            # previous = vertex[0]
-            nodeNum = vertex[1]
+            (weight, nodeNum) = heapq.heappop(h)
 
-        # print('chosenVertex: ', previous, '->', nodeNum, ':', weight)
         currentNodeNeighbours = nm[nodeNum]
         nm[nodeNum][0] = -1
         if weight > maxWeight:
             maxWeight = weight
 
         for i in range(1, len(currentNodeNeighbours)):
-            heapq.heappush(h, (currentNodeNeighbours[i], (nodeNum, i - 1)))
+            if not (currentNodeNeighbours[i] == Inf):
+                heapq.heappush(h, (currentNodeNeighbours[i], i - 1))
 
     return maxWeight
 
