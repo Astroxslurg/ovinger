@@ -1,4 +1,4 @@
-from sys import stdin
+from sys import stdin, setcheckinterval
 
 
 # MaxHeap is missing buildHeap, because it is not needed in this script
@@ -99,4 +99,5 @@ def main():
 
 
 if __name__ == "__main__":
+    setcheckinterval(1000000)
     main()
