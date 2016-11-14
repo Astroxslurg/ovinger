@@ -54,7 +54,8 @@ class MaxHeap:
 
 def best_path(nl, prob):
     h = MaxHeap()
-    h.insert(prob[0], 0)
+    heapInsert = h.insert
+    heapInsert(prob[0], 0)
     totProb = [0]*len(prob)
     totProb[0] = prob[0]
     pi = [-1]*len(prob)
@@ -67,7 +68,7 @@ def best_path(nl, prob):
             tp = totProb[node]*prob[n]
             if (tp > totProb[n]):
                 totProb[n] = tp
-                h.insert(tp, n)
+                heapInsert(tp, n)
                 pi[n] = node
 
     path = [str(p)]
