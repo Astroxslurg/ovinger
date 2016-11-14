@@ -1,5 +1,4 @@
 from sys import stdin
-from tabulate import tabulate
 
 
 # incGreedy returns the minimum number of used coins found by the greedy algorithm
@@ -38,24 +37,49 @@ def isCanonical(coins):  # coins sorted increasing
     return True
 
 
-def getMatrix(coins, value):
-    matrix = [[0 for _ in range(value + 1)] for _ in range(len(coins) + 1)]
-    for i in range(value + 1):
-        matrix[0][i] = i
-    return matrix
+class MatrixKeeper:
+    def __init__(self):
+        self.matrix = []
+        self.initialized = False
+        self.startVal = 1
+
+    def getMatrix(self, coins, value):
+        if not self.initialized:
+            self.initialized = True
+            self.matrix = [[0 for _ in range(value + 1)] for _ in range(len(coins) + 1)]
+            for i in range(value + 1):
+                self.matrix[0][i] = i
+            return self.matrix
+        else:
+            if value < len(self.matrix[0]):
+                return self.matrix
+            else:
+                oldLength = len(self.matrix[0])
+                diff_val = (value + 1 - oldLength)
+                for row in self.matrix:
+                    row.extend([0]*diff_val)
+                for i in range(oldLength, value + 1):
+                    self.matrix[0][i] = i
+                self.startVal = oldLength
+                return self.matrix
+
+    def updateMatrix(self, matrix):
+        self.matrix = matrix
 
 
-def dynamic(coins, value, matrix):
+def dynamic(coins, value, matrixKeeper):
+    matrix = matrixKeeper.getMatrix(coins, value)
+    startVal = matrixKeeper.startVal
     for c in range(1, len(coins) + 1):
-        for val in range(1, value + 1):
+        for val in range(startVal, value + 1):
             if coins[c - 1] == val:
                 matrix[c][val] = 1
             elif coins[c - 1] > val:
                 matrix[c][val] = matrix[c - 1][val]
             else:
                 matrix[c][val] = min(matrix[c - 1][val], 1 + matrix[c][val - coins[c - 1]])
-    print(tabulate(matrix))
-    return matrix[-1][-1]
+    matrixKeeper.updateMatrix(matrix)
+    return matrix[-1][value]
 
 
 def main():
@@ -63,21 +87,22 @@ def main():
     for c in stdin.readline().split():
         coins.append(int(c))
     coins.sort()
+
+    # matrixKeeper = MatrixKeeper()
     # for line in stdin:
     #     print('value:', int(line))
     #     print('greedy-result:', incGreedy(coins, int(line)))
-    #     matrix = getMatrix(coins, int(line))
     #     print('\n -- running the dynamic algorithm -- ')
-    #     print('dynamic-result:', dynamic(coins, int(line), matrix))
+    #     print('dynamic-result:', dynamic(coins, int(line), matrixKeeper))
     #     print('')
     method = stdin.readline().strip()
     if method == "graadig" or (method == "velg" and isCanonical(coins)):
         for line in stdin:
             print(incGreedy(coins, int(line)))
     else:
+        matrixKeeper = MatrixKeeper()
         for line in stdin:
-            matrix = getMatrix(coins, int(line))
-            result = dynamic(coins, int(line), matrix)
+            result = dynamic(coins, int(line), matrixKeeper)
             print(result)
 
 
