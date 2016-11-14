@@ -5,16 +5,12 @@ from sys import stdin
 # where coins are sorted in increasing order
 def incGreedy(coins, value):
     usedCoins = 0
-    missedCoinsIndexes = []
     rem = value
     i = len(coins) - 1
     while (rem > 0):
         howMany = rem // coins[i]
         rem = rem % coins[i]
-        if howMany == 0:
-            missedCoinsIndexes.append(i)
-        else:
-            usedCoins += howMany
+        usedCoins += howMany
         i -= 1
 
     return usedCoins
