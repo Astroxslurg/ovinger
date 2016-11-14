@@ -72,11 +72,12 @@ def best_path(nl, prob):
                 pi[n] = node
 
     path = [str(p)]
+    pathAppend = path.append
     while True:
         p = pi[p]
         if p == -1:
             break
-        path.append(str(p))
+        pathAppend(str(p))
     if (len(path) == 1):
         return 0
     path.reverse()
