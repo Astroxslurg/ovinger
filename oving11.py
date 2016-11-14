@@ -52,7 +52,7 @@ class MaxHeap:
         return self.list
 
 
-def best_path(nm, prob):
+def best_path(nl, prob):
     h = MaxHeap()
     h.insert(prob[0], 0)
     totProb = [0]*len(prob)
@@ -63,13 +63,12 @@ def best_path(nm, prob):
         node = h.pop()[1]
         if node == p:
             break
-        for i, n in enumerate(nm[node]):
-            if n:
-                tp = totProb[node]*prob[i]
-                if (tp > totProb[i]):
-                    totProb[i] = tp
-                    h.insert(tp, i)
-                    pi[i] = node
+        for n in nl[node]:
+            tp = totProb[node]*prob[n]
+            if (tp > totProb[n]):
+                totProb[n] = tp
+                h.insert(tp, n)
+                pi[n] = node
 
     path = [str(p)]
     while True:
@@ -88,16 +87,11 @@ def main():
     n = int(stdin.readline())
     probabilities = [float(x) for x in stdin.readline().split()]
     neighbourLists = [[] for i in range(n)]
-    for line in stdin
-
-    neighbour_matrix = []
+    i = 0
     for line in stdin:
-        neighbour_row = [0] * n
-        neighbours = [int(neighbour) for neighbour in line.split()]
-        for neighbour in neighbours:
-            neighbour_row[neighbour] = 1
-        neighbour_matrix.append(neighbour_row)
-    print(best_path(neighbour_matrix, probabilities))
+        neighbourLists[i] = [int(neighbour) for neighbour in line.split()]
+        i = i + 1
+    print(best_path(neighbourLists, probabilities))
 
 
 if __name__ == "__main__":
