@@ -55,13 +55,15 @@ class MaxHeap:
 def best_path(nl, prob):
     h = MaxHeap()
     heapInsert = h.insert
+    heapPop = h.pop
+    heapList = h.list
     heapInsert(prob[0], 0)
     totProb = [0]*len(prob)
     totProb[0] = prob[0]
     pi = [-1]*len(prob)
     p = len(pi) - 1
-    while(1 < len(h.list)):
-        node = h.pop()[1]
+    while(1 < len(heapList)):
+        node = heapPop()[1]
         if node == p:
             break
         for n in nl[node]:
