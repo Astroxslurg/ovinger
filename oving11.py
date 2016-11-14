@@ -55,7 +55,7 @@ class MaxHeap:
 def best_path(nm, prob):
     print('prob:', prob)
     h = MaxHeap()
-    h.insert(1, 0)
+    h.insert(prob[0], 0)
     totProb = [0]*len(prob)
     totProb[0] = prob[0]
     pi = [-1]*len(prob)
@@ -82,8 +82,9 @@ def best_path(nm, prob):
         if p == -1:
             break
         path.append(str(p))
+    if (len(path) == 1):
+        return 0
     path.reverse()
-    print(path)
     spath = "-".join(path)
     return spath
 
