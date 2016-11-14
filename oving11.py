@@ -42,7 +42,6 @@ class MaxHeap:
         if self.size == 0:
             return -1
         retval = self.list[1]
-        print(retval)
         self.list[1] = self.list[self.size]
         self.size = self.size - 1
         self.list.pop()
