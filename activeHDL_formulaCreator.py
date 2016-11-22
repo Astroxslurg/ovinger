@@ -26,7 +26,7 @@ def main():
     for line in stdin.readline().split():
         inpSeq.extend(list(line))
 
-    inpSeq.reverse()
+    # inpSeq.reverse()  -- consider reverse the input sequence
 
     outArr = []
     curTime = 0
